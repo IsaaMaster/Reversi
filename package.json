@@ -1,0 +1,28 @@
+{
+  "name": "reversi",
+  "version": "0.0.1",
+  "description": "This is a reversi game",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IsaaMaster/Reversi.git"
+  },
+  "keywords": [
+    "isaac",
+    "song",
+    "reversi"
+  ],
+  "author": "Isaac Song",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/IsaaMaster/Reversi/issues"
+  },
+  "homepage": "https://github.com/IsaaMaster/Reversi#readme",
+  "dependencies": {
+    "node-static": "^0.7.11",
+    "socket.io": "^4.6.1"
+  }
+}
