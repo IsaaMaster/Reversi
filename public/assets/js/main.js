@@ -52,9 +52,16 @@ function makeInvitedButton(socket_id){
     }); 
     return newNode;  
 }
-function makePlayButton(){
+function makePlayButton(socket_id){
     let newHTML = '<button type="button" class="btn btn-success button">Play!</button>';
     newNode = $(newHTML); 
+    newNode.click( () => { 
+        let payload = {
+            requested_user:socket_id
+        }
+        console.log('**** Client log message, sending \'play\' command: '+JSON.stringify(payload));
+        socket.emit('game_start', payload);    
+    }); 
     return newNode;  
 }
 
@@ -88,7 +95,7 @@ socket.on('invited', (payload) => {
         console.log(payload.message);
         return; 
     }
-    let newNode = makePlayButton();
+    let newNode = makePlayButton(payload.socket_id);
     $('.socket_'+payload.socket_id+' button').replaceWith(newNode);
 }); 
 
@@ -104,6 +111,21 @@ socket.on('uninvited', (payload) => {
     let newNode = makeInviteButton(payload.socket_id);
     $('.socket_'+payload.socket_id+' button').replaceWith(newNode);
 }); 
+
+socket.on('game_start_response', (payload) => { 
+    if((typeof payload == 'undefined') || (payload === null)){
+        console.log('Server did not send a payload');
+        return; 
+    }
+    if(payload.result === 'fail'){
+        console.log(payload.message);
+        return; 
+    }
+    let newNode = makeStartGameButton();
+    $('.socket_'+payload.socket_id+' button').replaceWith(newNode);
+    window.location.href = 'game.html?username='+username+'&game_id='+payload.game_id;
+}); 
+
 
 socket.on('join_room_response', (payload) => {
     if((typeof payload == 'undefined') || (payload === null)){
@@ -160,7 +182,7 @@ socket.on('join_room_response', (payload) => {
 
 
     /*Announcing in the chat room that a new user has joined*/
-    let newHTML = "<p class = \'join room response\'>" + payload.username + ' joined the ' + payload.room + '. (There are now ' + payload.count + ' users in this room.)</p>';  
+    let newHTML = "<p class = \'join room response\'>" + payload.username + ' joined. (There are now ' + payload.count + ' players online.)</p>';  
     let newNode = $(newHTML);
     newNode.hide()
     $('#messages').prepend(newNode);
@@ -182,7 +204,7 @@ socket.on('player_disconnected', (payload) => {
     }    
     
 
-    let newHTML = "<p class = \'join room response\'>" + payload.username + ' left the ' + payload.room + '. (There are now ' + payload.count + ' users in this room.)</p>';  
+    let newHTML = "<p class = \'join room response\'>" + payload.username + ' left. (There are now ' + payload.count + ' players.)</p>';  
     let newNode = $(newHTML);
     newNode.hide()
     $('#messages').prepend(newNode);

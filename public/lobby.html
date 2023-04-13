@@ -19,10 +19,10 @@
       }
 
       .chat_message{
-        border: 1px solid #0d6efd;
-        background-color: #0d6efd;
-        border-radius: 10px;
-        padding: 7px 10px;
+        border: 1px solid rgb(70, 70, 70);
+        background-color: rgb(70, 70, 70);
+        border-radius: 45px;
+        padding: 8px 12px;
         margin: 0px 0px; 
         color: white;
         display: inline; 
@@ -30,10 +30,10 @@
       }
 
       p {
-        margin: 18px; 
+        margin: 20px; 
       }
       .lobbySection{
-        border-radius: 10px; 
+        border-radius: 15px; 
         margin: 10px; 
         background-color: lightgrey;
         padding: 20px; 
@@ -46,8 +46,9 @@
       }
 
       .own_message{
-        border-color: rgb(70, 70, 70); 
-        background-color:rgb(70, 70, 70); 
+        border-color:#0d6efd;
+        background-color: #0d6efd;
+         
       }
     </style>
   </head>
@@ -81,6 +82,7 @@
           <div class="input-group">
             <input type="text" class="form-control text-nowrap" id="chatMessage" placeholder="Start a new conversation..." aria-label = "Enter your display name for use while playing reversi"/>
             <button type="submit" class="btn btn-primary text-nowrap" id="chatButton" onclick="sendChatMessage()">
+              Send
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
                 <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
               </svg>
@@ -94,7 +96,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha384-Ft/vb48LwsAEtgltj7o+6vtS2esTU9PCpDqcXs4OCVQFZu5BqprHtUCZ4kjK+bpE" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha384-4D3G3GikQs6hLlLZGdz5wLFzuqE9v4yVGAcOH86y23JqBDPzj9viv0EqyfIa6YUL" crossorigin="anonymous"></script>
     <script src="https://cdn.socket.io/4.6.1/socket.io.min.js" integrity="sha384-KA7m0DwgQGmeRC6Xre3hJO+ZxpanOauVh4Czdqbg8lDKJ3bZZYVYmP+y4F31x40L" crossorigin="anonymous"></script>
-    <script src="assets/js/main.js"></script>  
+    <script src="assets/js/main.js"></script>   
   </body>
 </html>
 

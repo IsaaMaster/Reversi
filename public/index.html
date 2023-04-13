@@ -54,6 +54,7 @@
         let username = encodeURI($('#nameInput').val());
         window.location.href = "lobby.html?username=" + username;
       }
+      
       $('#nameInput').keypress( function(e){
         let key = e.which; 
         if(key == 13) {
