@@ -1,0 +1,47 @@
+body {
+    background-color: black;
+    width:100%; 
+    background-image: url("../images/Background.jpg");
+}
+
+.headerrow {
+    color:black
+
+    }
+
+.chat_message{
+    border: 1px solid rgb(70, 70, 70);
+    background-color: rgb(70, 70, 70);
+    border-radius: 45px;
+    padding: 8px 12px;
+    margin: 0px 0px; 
+    color: white;
+    display: inline; 
+    opacity:1;
+    }
+
+p {
+    margin: 20px; 
+    }
+.lobbySection{
+    border-radius: 15px; 
+    margin: 10px; 
+    background-color: lightgrey;
+    padding: 20px; 
+    border: solid 2px lightgrey;
+    opacity: 0.9;
+    min-height: 50px;
+    }
+.name_online{
+    margin: 15px 0px; 
+    }
+
+.own_message{
+    border-color:#0d6efd;
+    background-color: #0d6efd;
+        
+    }
+
+table td{
+    border: 3px solid black; 
+}

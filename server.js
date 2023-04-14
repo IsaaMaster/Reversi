@@ -109,6 +109,11 @@ io.on('connection', (socket) => {
                     }
                     io.of('/').to(room).emit('join_room_response', response);
                     serverlog("join_room succeeded", JSON.stringify(response));
+
+                ///new message for game 
+                    if(room !== "Lobby"){
+                        send_game_update(socket, room, 'initial update'); 
+                    }
                 }   
             }
         });
@@ -417,6 +422,71 @@ io.on('connection', (socket) => {
         
     });  
 
+
+
      
 
 }); 
+
+
+
+/*** ***
+ * Code related to game state
+*/
+
+let games =[]; 
+function create_new_game(){
+    let new_game = {}; 
+    new_game.player_white = {}; 
+    new_game.player_white.socket = ""
+    new_game.player_white.username = ""; 
+    new_game.player_black = {};
+    new_game.player_black.socket = ""
+    new_game.player_black.username = ""; 
+
+    var d = new Date();
+    new_game.last_move_time = d.getTime();
+
+    new_game.whose_turn  = "white";
+
+    new_game.board = [
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', 'w', 'b', ' ', ' ', ' '],
+        [' ', ' ', ' ', 'b', 'w', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+    ]
+
+    return new_game;
+
+
+}
+
+function send_game_update(socket, game_id, message){
+    /*Check to make sure a game exists*/
+    if(typeof games[game_id] == "undefined" || (games[game_id] === null)){
+        console.log("No game exists. Can't send update", JSON.stringify());
+        games[game_id] = create_new_game();
+    }
+
+    /*Send the game update*/
+    let payload = {
+        result: 'success',
+        game_id: game_id, 
+        game: games[game_id], 
+        message: message
+    }
+    io.of('/').to(game_id).emit('game_update', payload);
+
+
+
+
+
+    /*Make sure that only 2 people are in the room*/
+    /*Assign each socket a color*/
+    /*Send a game_update message to each player*/
+    /*Check to see if the game is over*/
+}

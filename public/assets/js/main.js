@@ -246,6 +246,89 @@ socket.on('send_chat_message', (payload) => {
     }
 }); 
 
+let old_board = [
+    ['?', '?', '?', '?', '?', '?', '?', '?'],
+    ['?', '?', '?', '?', '?', '?', '?', '?'],
+    ['?', '?', '?', '?', '?', '?', '?', '?'],
+    ['?', '?', '?', '?', '?', '?', '?', '?'],
+    ['?', '?', '?', '?', '?', '?', '?', '?'],
+    ['?', '?', '?', '?', '?', '?', '?', '?'],
+    ['?', '?', '?', '?', '?', '?', '?', '?'],
+    ['?', '?', '?', '?', '?', '?', '?','?']
+]
+
+socket.on('game_update', (payload) => { 
+    if((typeof payload == 'undefined') || (payload === null)){
+        console.log('Server did not send a payload');
+        return; 
+    }
+    if(payload.result === 'fail'){
+        console.log(payload.message);
+        return; 
+    }
+    let board = payload.game.board; 
+    if((typeof board == 'undefined') || (board === null)){
+        console.log('Server did not send a valid board');
+        return; 
+    }
+    //Update the color
+
+
+    /*Update the board*/
+    //animate all the changes
+    for(let row = 0; row < 8 ; row++){
+        for(let col = 0; col < 8; col++){
+            
+            //check to see if there is a change on the board
+            if(old_board[row][col] !== board[row][col]){
+                let graphic = ""; 
+                if(old_board[row][col] === "?" && (board[row][col] === ' ')){
+                    graphic = "blank.gif"; 
+                }
+
+                else if(old_board[row][col] === '?' && (board[row][col] === 'w')){
+                    graphic = "blank_to_white.gif"; 
+                }
+                else if(old_board[row][col] === '?' && (board[row][col] === 'b')){
+                    graphic = "blank_to_black.gif"; 
+                }
+                else if(old_board[row][col] === ' ' && (board[row][col] === 'w')){
+                    graphic = "blank_to_white.gif"; 
+                }
+                else if(old_board[row][col] === ' ' && (board[row][col] === 'b')){
+                    graphic = "blank_to_black.gif"; 
+                }
+                else if(old_board[row][col] === 'b' && (board[row][col] === ' ')){
+                    graphic = "black_to_blank.gif"; 
+                }
+                else if(old_board[row][col] === 'w' && (board[row][col] === ' ')){
+                    graphic = "white_to_blank.gif"; 
+                }
+                else if(old_board[row][col] === 'b' && (board[row][col] === 'w')){
+                    graphic = "black_to_white.gif"; 
+                }
+                else if(old_board[row][col] === 'w' && (board[row][col] === 'b')){
+                    graphic = "white_to_black.gif"; 
+                }else{
+                    console.log("old = " + old_board[row][col] + " new = " + board[row][col]); 
+                    console.log(old_board[row][col]==='?');
+                    console.log((board[row][col] === 'w')) 
+                    graphic = 'error.gif'; 
+                }
+                altTag = "gamePiece"; 
+
+                const t  = Date.now(); 
+                $('#' + row+ '_' + col).html('<img class = "img-fuild" src = assets/images/' + graphic +  '?time='+t+'" alt="' +altTag+'" />');
+
+
+            }
+            
+        }
+    }
+    old_board = board;
+    
+}); 
+
 /*request to join the chat room*/
 $(() => {
     let request = {}; 
