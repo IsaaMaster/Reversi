@@ -25,7 +25,7 @@ p {
     }
 .lobbySection{
     border-radius: 15px; 
-    margin: 10px; 
+    margin: 5px 15px; 
     background-color: lightgrey;
     padding: 20px; 
     border: solid 2px lightgrey;
@@ -44,4 +44,8 @@ p {
 
 table td{
     border: 3px solid black; 
+}
+
+td.hovered_over:hover{
+    background-image: url('/assets/images/hover.gif');
 }

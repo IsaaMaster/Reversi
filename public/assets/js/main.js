@@ -257,6 +257,8 @@ let old_board = [
     ['?', '?', '?', '?', '?', '?', '?','?']
 ]
 
+let my_color = "";
+
 socket.on('game_update', (payload) => { 
     if((typeof payload == 'undefined') || (payload === null)){
         console.log('Server did not send a payload');
@@ -272,6 +274,16 @@ socket.on('game_update', (payload) => {
         return; 
     }
     //Update the color
+    if(socket.id === payload.game.player_white.socket){
+        my_color = 'white';
+    } 
+    else if(socket.id === payload.game.player_black.socket){
+        my_color = 'black';
+    } else {
+        window.location.href = 'lobby.html?username='+username; 
+        return; 
+    }
+    $('#my_color').html('<h1 id="my_color">I am '+my_color+'</h1>')
 
 
     /*Update the board*/
@@ -319,7 +331,24 @@ socket.on('game_update', (payload) => {
 
                 const t  = Date.now(); 
                 $('#' + row+ '_' + col).html('<img class = "img-fuild" src = assets/images/' + graphic +  '?time='+t+'" alt="' +altTag+'" />');
-
+                
+                $('#' + row+ '_' + col).off('click');
+                if (board[row][col] === ' '){
+                    $('#' + row+ '_' + col).addClass('hovered_over'); 
+                    $('#' + row+ '_' + col).click(((r, c) => {
+                        return(() => {
+                            let payload = {
+                                row: r,
+                                column : c,
+                                color: my_color, 
+                            }; 
+                            console.log(  '**** Client log message, sending \'play_token\' command: '+JSON.stringify(payload));
+                            socket.emit('play_token', payload); 
+                        }); 
+                    })(row, col)); 
+                } else {
+                    $('#' + row+ '_' + col).removeClass('hovered_over'); 
+                }
 
             }
             
@@ -328,6 +357,21 @@ socket.on('game_update', (payload) => {
     old_board = board;
     
 }); 
+
+
+socket.on('play_token_response', (payload) => { 
+    if((typeof payload == 'undefined') || (payload === null)){
+        console.log('Server did not send a payload');
+        return; 
+    }
+    if(payload.result === 'fail'){
+        console.log(payload.message);
+        return; 
+    }
+    
+}); 
+
+
 
 /*request to join the chat room*/
 $(() => {
