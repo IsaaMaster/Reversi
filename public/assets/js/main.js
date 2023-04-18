@@ -18,7 +18,6 @@ if((typeof username == 'undefined') || (username === null) || (username === 'nul
 }
 
 let chatRoom = decodeURI(getIRIParameterValue('game_id')); 
-
 if((typeof chatRoom == 'undefined') || (chatRoom === null) || (chatRoom === 'null')){
     chatRoom  = 'Lobby';
 }
@@ -259,6 +258,7 @@ let old_board = [
 
 let my_color = "";
 
+
 socket.on('game_update', (payload) => { 
     if((typeof payload == 'undefined') || (payload === null)){
         console.log('Server did not send a payload');
@@ -285,12 +285,19 @@ socket.on('game_update', (payload) => {
     }
     $('#my_color').html('<h1 id="my_color">I am '+my_color+'</h1>')
 
+    let whitesum = 0; 
+    let blacksum = 0; 
 
     /*Update the board*/
     //animate all the changes
     for(let row = 0; row < 8 ; row++){
         for(let col = 0; col < 8; col++){
-            
+            if(board[row][col] === "w"){
+                whitesum++;
+            }
+            if(board[row][col] === "b"){
+                blacksum++;
+            }
             //check to see if there is a change on the board
             if(old_board[row][col] !== board[row][col]){
                 let graphic = ""; 
@@ -354,6 +361,8 @@ socket.on('game_update', (payload) => {
             
         }
     }
+    $("#whitesum").html(whitesum); 
+    $("#blacksum").html(blacksum);
     old_board = board;
     
 }); 
@@ -371,6 +380,30 @@ socket.on('play_token_response', (payload) => {
     
 }); 
 
+socket.on('game_over', (payload) => { 
+    if((typeof payload == 'undefined') || (payload === null)){
+        console.log('Server did not send a payload');
+        return; 
+    }
+    if(payload.result === 'fail'){
+        console.log(payload.message);
+        return; 
+    }
+    
+    /*Anounce with a button to the lobby*/
+    let nodeA = $("<div id = 'game_over'></div>");
+    let nodeB = $("<h1 style='color:white'>Game Over</h1>");
+    let nodeC = $("<h2 style='color:white'>" + payload.who_won + " won!</h2>");
+    let nodeD = $("<a href = 'lobby.html?username=" + username+ "' class='btn btn-lg btn-success' role = 'button'>Return to Lobby</a>");
+    nodeA.append(nodeB); 
+    nodeB.append(nodeC); 
+    nodeC.append(nodeD); 
+    nodeA.hide(); 
+    $('#game_over').replaceWith(nodeA);
+    nodeA.show("fade", 1000); 
+
+}); 
+
 
 
 /*request to join the chat room*/
@@ -382,6 +415,8 @@ $(() => {
     socket.emit('join_room', request);
 
     $('#lobbyTitle').html(username + '\'s Lobby'); 
+
+    $('#quit').html("<a href = 'lobby.html?username=" + username+ "' class='btn btn-danger' role = 'button'>Resign</a>");
     
     $('#chatMessage').keypress( function(e){
         let key = e.which; 

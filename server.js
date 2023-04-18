@@ -37,7 +37,7 @@ io.on('connection', (socket) => {
 
     function serverlog(...messages){
         io.emit('log', ['**** Message from the server:\n']); 
-        messages.forEach((item) => {
+        messages.forEach((item) => { 
             io.emit('log', ['****\t'+item]);
             console.log(item); 
         });
@@ -111,6 +111,7 @@ io.on('connection', (socket) => {
                     serverlog("join_room succeeded", JSON.stringify(response));
 
                 ///new message for game 
+                    
                     if(room !== "Lobby"){
                         send_game_update(socket, room, 'initial update'); 
                     }
@@ -633,4 +634,36 @@ function send_game_update(socket, game_id, message){
     }); 
     /*Send a game_update message to each player*/
     /*Check to see if the game is over*/
+    let count = 0; 
+    for(let row = 0; row < 8; row++){
+        for(let column = 0; column < 8; column++){
+            if(games[game_id].board[row][column] != ' '){
+                count++;
+            }
+        }
+    }
+    console.log("Count is ", count);
+    if(count === 8){
+        let payload = {
+            result: 'success',
+            game_id: game_id,
+            game: games[game_id], 
+            who_won: 'everyone'
+        }
+        io.in(game_id).emit('game_over', payload);
+
+        /*Deltete the game after an hour*/
+        setTimeout(
+            ((id) => {
+                return (() => {
+                    delete games[id];
+                });  
+            })(game_id)
+            ,60*60*1000)
+    }
+
+    
+
+
+
 }
