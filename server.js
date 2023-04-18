@@ -643,7 +643,7 @@ function send_game_update(socket, game_id, message){
         }
     }
     console.log("Count is ", count);
-    if(count === 8){
+    if(count === 64){
         let payload = {
             result: 'success',
             game_id: game_id,
