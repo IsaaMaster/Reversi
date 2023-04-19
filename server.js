@@ -683,7 +683,7 @@ function calculate_legal_moves(who, board){
                 ww = adjacent_support(who, 0, -1, row, col, board); 
                 ee = adjacent_support(who, 0,  1, row, col, board); 
                 
-                console.log(nw || ne || nn || ss || sw || se || ww || ee); 
+                //console.log(nw || ne || nn || ss || sw || se || ww || ee); 
                 if(nw || ne || nn || ss || sw || se || ww || ee){
                     legal_moves[row][col] = who; 
                 }

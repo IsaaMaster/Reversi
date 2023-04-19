@@ -353,8 +353,9 @@ socket.on('game_update', (payload) => {
             $('#' + row+ '_' + col).removeClass('hovered_over');
 
             if(payload.game.whose_turn === my_color){
-                ///temporary fix 
-                if(payload.game.legal_moves[row][col] === my_color.substring(0, 1)){
+                if(payload.game.legal_moves[row][col] === my_color.substring(0, 1) && board[row][col] === ' '){
+                    console.log('legal move: ' + row + ' ' + col); 
+                    console.log('piece on board: (' + board[row][col] + ')'); 
                     $('#' + row+ '_' + col).addClass('hovered_over'); 
                     $('#' + row+ '_' + col).click(((r, c) => {
                         return(() => {
