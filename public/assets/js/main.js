@@ -283,7 +283,16 @@ socket.on('game_update', (payload) => {
         window.location.href = 'lobby.html?username='+username; 
         return; 
     }
-    $('#my_color').html('<h1 id="my_color">I am '+my_color+'</h1>')
+
+    $('#my_color').html('<h3 id="my_color">I am '+my_color+'</h4>')
+    
+    if(payload.game.whose_turn === "white"){
+        $('#my_color').append('<h4>It is white\'s turn.</h1>'); 
+    } else if(payload.game.whose_turn === "black"){
+        $('#my_color').append('<h4>It is black\'s turn.</h1>'); 
+    } else {
+        $('#my_color').append('<h4>Error: It is no one\'s turn.</h1>'); 
+    }
 
     let whitesum = 0; 
     let blacksum = 0; 
@@ -338,9 +347,14 @@ socket.on('game_update', (payload) => {
 
                 const t  = Date.now(); 
                 $('#' + row+ '_' + col).html('<img class = "img-fuild" src = assets/images/' + graphic +  '?time='+t+'" alt="' +altTag+'" />');
-                
-                $('#' + row+ '_' + col).off('click');
-                if (board[row][col] === ' '){
+            }   
+            /*Set up interactivity*/ 
+            $('#' + row+ '_' + col).off('click');
+            $('#' + row+ '_' + col).removeClass('hovered_over');
+
+            if(payload.game.whose_turn === my_color){
+                ///temporary fix 
+                if(payload.game.legal_moves[row][col] === my_color.substring(0, 1)){
                     $('#' + row+ '_' + col).addClass('hovered_over'); 
                     $('#' + row+ '_' + col).click(((r, c) => {
                         return(() => {
@@ -352,12 +366,13 @@ socket.on('game_update', (payload) => {
                             console.log(  '**** Client log message, sending \'play_token\' command: '+JSON.stringify(payload));
                             socket.emit('play_token', payload); 
                         }); 
-                    })(row, col)); 
-                } else {
-                    $('#' + row+ '_' + col).removeClass('hovered_over'); 
+                    })(row, col));
                 }
-
+            } else {
+                $('#' + row+ '_' + col).removeClass('hovered_over'); 
             }
+
+            
             
         }
     }

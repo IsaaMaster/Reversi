@@ -49,3 +49,7 @@ table td{
 td.hovered_over:hover{
     background-image: url('/assets/images/frame.png');
 }
+
+#quit{
+    margin-top: 25px;
+}
