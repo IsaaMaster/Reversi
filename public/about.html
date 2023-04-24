@@ -6,23 +6,37 @@
     <title>Reversi: About</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <style>
-      .headerrow {
-        background-color: darkseagreen;
+      body {
+        background-color: black;
+        height:100%; 
+        width:100%; 
+        background-size: cover;
+        background-image: url("assets/images/Background.jpg");
+      }
+      .lobbySection{
+        border-radius: 15px; 
+        margin: 10px; 
+        background-color: lightgrey;
+        padding: 20px; 
+        border: solid 2px lightgrey;
+        opacity: 0.9;
+        min-height: 50px;
       }
     </style>
   </head>
   <body>
-    <div class="container-fluid">
+    <div class="container-fluid" >
       <div class="row m-3 headerrow">
         <div class="col text-center">
-            <h3>About</h3> 
+            <h3 style="color:white">About</h3> 
         </div>
       </div>
 
-      <div class="row m-3">
+      <div class="row m-3 lobbySection">
         <div class = "col text-center">
-            <p> this is a game to demonstrate how web applications work.</p>
-        </div>
+          <div class = "fs-4">This project is a remake of the popular game Reversi, allowing users to play against each other online, among many other features. It was made using HTML, CSS (bootstrap 5), and Vanilla JS and deployed to Heroku. The source code can be seen here: <a href = "https://github.com/IsaaMaster/Reversi">Github</a>. If you are a recrui  </div>
+
+          </div>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>

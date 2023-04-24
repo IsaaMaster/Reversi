@@ -246,17 +246,18 @@ socket.on('send_chat_message', (payload) => {
 }); 
 
 let old_board = [
-    ['?', '?', '?', '?', '?', '?', '?', '?'],
-    ['?', '?', '?', '?', '?', '?', '?', '?'],
-    ['?', '?', '?', '?', '?', '?', '?', '?'],
-    ['?', '?', '?', '?', '?', '?', '?', '?'],
-    ['?', '?', '?', '?', '?', '?', '?', '?'],
-    ['?', '?', '?', '?', '?', '?', '?', '?'],
-    ['?', '?', '?', '?', '?', '?', '?', '?'],
-    ['?', '?', '?', '?', '?', '?', '?','?']
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ',' ']
 ]
 
 let my_color = "";
+let interval_timer; 
 
 
 socket.on('game_update', (payload) => { 
@@ -377,6 +378,37 @@ socket.on('game_update', (payload) => {
             
         }
     }
+
+    clearInterval(interval_timer);
+    interval_timer = setInterval(((last_time) => {
+        return (() => {
+            let d = new Date();
+            let elapse_m = d.getTime() - last_time;
+            let minutes  = Math.floor((elapse_m / 1000) /60);
+            let seconds  = Math.floor(elapse_m % (60*1000)/1000);
+            let total = minutes * 60 + seconds;
+            
+            if(total > 100){
+                total = 100; 
+            }
+
+            $("#elapsed").css("width", total + "%")
+
+            let timestring = ""+seconds; 
+            timestring = timestring.padStart(2, "0");
+            timestring = minutes + ":" + timestring;
+
+            if (total > 100){
+                $("#elapsed").html("Times up!");
+            } else {
+                $("#elapsed").html(timestring);
+            }
+            
+        })
+    })(payload.game.last_move_time)
+
+    , 1000)
+
     $("#whitesum").html(whitesum); 
     $("#blacksum").html(blacksum);
     old_board = board;

@@ -547,6 +547,11 @@ io.on('connection', (socket) => {
             game.legal_moves = calculate_legal_moves('w', game.board); 
         }
 
+        /*Add somethng later for handling when a player can't play */
+
+        let d = new Date();
+        game.last_move_time = d.getTime();
+
         send_game_update(socket, game_id, 'played a token');
        
         
@@ -801,21 +806,37 @@ function send_game_update(socket, game_id, message){
     }); 
     /*Send a game_update message to each player*/
     /*Check to see if the game is over*/
-    let count = 0; 
+    let count = 0;
+    let whitesum = 0; 
+    let blacksum = 0 
     for(let row = 0; row < 8; row++){
         for(let column = 0; column < 8; column++){
             if(games[game_id].board[row][column] != ' '){
                 count++;
             }
+            if(games[game_id].board[row][column] === 'w'){
+                whitesum++; 
+            }
+            if(games[game_id].board[row][column] === 'b'){
+                blacksum++; 
+            }
         }
     }
     console.log("Count is ", count);
     if(count === 64){
+        let winner = "Tie game"; 
+        if(whitesum > blacksum){
+            winner = "white"; 
+        }
+        if (blacksum > whitesum){
+            winner = "black";
+        }
+
         let payload = {
             result: 'success',
             game_id: game_id,
             game: games[game_id], 
-            who_won: 'everyone'
+            who_won: winner, 
         }
         io.in(game_id).emit('game_over', payload);
 
