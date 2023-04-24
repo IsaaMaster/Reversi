@@ -152,6 +152,7 @@ socket.on('join_room_response', (payload) => {
     //nodeA.addClass('align-items-left');
     nodeA.addClass('socket_'+payload.socket_id);
     nodeA.hide(); 
+    
 
 
     let nodeB = $('<div></div>');
