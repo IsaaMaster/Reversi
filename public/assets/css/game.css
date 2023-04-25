@@ -8,7 +8,9 @@ body {
     color:black
 
     }
-
+.chat_buffer{
+    align-items: right;
+}
 .chat_message{
     border: 1px solid rgb(70, 70, 70);
     background-color: rgb(70, 70, 70);
@@ -38,7 +40,7 @@ p {
 
 .own_message{
     border-color:#0d6efd;
-    background-color: #0d6efd;
+    background-color: #0d6efd; 
         
     }
 

@@ -152,7 +152,7 @@ socket.on('join_room_response', (payload) => {
     //nodeA.addClass('align-items-left');
     nodeA.addClass('socket_'+payload.socket_id);
     nodeA.hide(); 
-    
+
 
 
     let nodeB = $('<div></div>');
@@ -216,6 +216,7 @@ function sendChatMessage(){
     request.room = chatRoom; 
     request.username = username;
     request.message = $('#chatMessage').val();
+
     console.log('**** Client log message, sending \'send_chat_message\' command: '+JSON.stringify(request));
     socket.emit('send_chat_message', request);
     $('#chatMessage').val('');
@@ -232,7 +233,7 @@ socket.on('send_chat_message', (payload) => {
     }
     if(payload.socket_id == socket.id){
         console.log('This is my own message')
-        let newHTML = " <p><div class = \'chat_message own_message\'>" + payload.username  + ": " + payload.message + '</div></p>';  
+        let newHTML = " <p><div class = \'chat_message own_message\'>You: " + payload.message + '</div></p>';  
         let newNode = $(newHTML); 
         newNode.hide()
         $('#messages').prepend(newNode);
@@ -385,8 +386,8 @@ socket.on('game_update', (payload) => {
         return (() => {
             let d = new Date();
             let elapse_m = d.getTime() - last_time;
-            let minutes  = Math.floor((elapse_m / 1000) /60);
-            let seconds  = Math.floor(elapse_m % (60*1000)/1000);
+            let minutes  = Math.floor((elapse_m )/(60*1000));
+            let seconds  = Math.floor((elapse_m % (60*1000))/1000);
             let total = minutes * 60 + seconds;
             
             if(total > 100){
@@ -399,10 +400,10 @@ socket.on('game_update', (payload) => {
             timestring = timestring.padStart(2, "0");
             timestring = minutes + ":" + timestring;
 
-            if (total > 100){
-                $("#elapsed").html("Times up!");
+            if (total < 100){
+                $("#time").html(timestring);           
             } else {
-                $("#elapsed").html(timestring);
+                $("#time").html("Times up!");
             }
             
         })
