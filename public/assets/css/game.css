@@ -38,12 +38,21 @@ p {
     margin: 15px 0px; 
     }
 
-.own_message{
-    border-color:#0d6efd;
-    background-color: #0d6efd; 
-        
-    }
+    .message_section{
+        display: block;
+        position: relative; 
+        padding:10px; 
+        min-height: 45px;
+      }
 
+      .own_message{
+        border-color:#0d6efd;
+        background-color: #0d6efd;
+        position: absolute;
+        right: 10px;
+        bottom:2px;   
+         
+      }
 table td{
     border: 3px solid black; 
 }

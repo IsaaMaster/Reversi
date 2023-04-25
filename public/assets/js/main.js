@@ -233,13 +233,13 @@ socket.on('send_chat_message', (payload) => {
     }
     if(payload.socket_id == socket.id){
         console.log('This is my own message')
-        let newHTML = " <p><div class = \'chat_message own_message\'>You: " + payload.message + '</div></p>';  
+        let newHTML = " <div class ='message_section'><div class = \'chat_message own_message\'>You: " + payload.message + '</div></div>';  
         let newNode = $(newHTML); 
         newNode.hide()
         $('#messages').prepend(newNode);
         newNode.show('fade', 900);
     } else {
-        let newHTML = "<p><div class = \'chat_message\'>" + payload.username  + ": " + payload.message + '</div></p>';  
+        let newHTML = "<div class ='message_section'><div class = \'chat_message\'>" + payload.username  + ": " + payload.message + '</div></div>';  
         let newNode = $(newHTML);
         newNode.hide()
         $('#messages').prepend(newNode);
