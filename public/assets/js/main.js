@@ -398,6 +398,9 @@ socket.on('game_update', (payload) => {
             if(seconds<0){
                 seconds = 0;
             }
+            if(minutes<0){
+                minutes = 0; 
+            }
             let timestring = ""+seconds; 
             timestring = timestring.padStart(2, "0");
             timestring = minutes + ":" + timestring;
