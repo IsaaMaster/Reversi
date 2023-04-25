@@ -395,7 +395,9 @@ socket.on('game_update', (payload) => {
             }
 
             $("#elapsed").css("width", total + "%")
-
+            if(seconds<0){
+                seconds = 0;
+            }
             let timestring = ""+seconds; 
             timestring = timestring.padStart(2, "0");
             timestring = minutes + ":" + timestring;
