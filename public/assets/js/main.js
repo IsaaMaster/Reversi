@@ -386,8 +386,8 @@ socket.on('game_update', (payload) => {
         return (() => {
             let d = new Date();
             let elapse_m = d.getTime() - last_time;
-            let minutes  = Math.floor((elapse_m )/(60*1000));
-            let seconds  = Math.floor((elapse_m % (60*1000))/1000);
+            let minutes  = Math.floor((elapse_m / 1000) /60);
+            let seconds  = Math.floor(elapse_m % (60*1000)/1000);
             let total = minutes * 60 + seconds;
             
             if(total > 100){
