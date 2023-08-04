@@ -824,12 +824,12 @@ function send_game_update(socket, game_id, message){
     }
     console.log("Count is ", count);
     if(count === 64){
-        let winner = "Tie game"; 
+        let winner = "Tie game."; 
         if(whitesum > blacksum){
-            winner = "white"; 
+            winner = "white Won!"; 
         }
         if (blacksum > whitesum){
-            winner = "black";
+            winner = "Black Won!";
         }
 
         let payload = {
